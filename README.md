@@ -1,5 +1,6 @@
 # Módulo server do FlagraApp
-Foi separado do outro repositório para a integração com o Heroku. 
+Foi separado do outro repositório para a integração com o Heroku.
+O endereço remoto é: http://flagrapp-server.herokuapp.com/
 
 ##Tutorial
 1. Faça clone do repositório
