@@ -108,6 +108,10 @@ router.post('/publish', function(req, res) {
 	});
 });
 
+app.use(express.static(__dirname + '/views'));
+app.get('/', function (req, res) {
+	res.sendFile('index.html');
+});
 app.use('/twitter', router);
 app.listen(process.env.PORT || 5000);
 console.log("Servidor rodando!");
