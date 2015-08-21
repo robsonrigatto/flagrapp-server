@@ -1,0 +1,155 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Flagrapp",
+        "description": "O FlagrApp é um aplicativo cujo objetivo é alertar a população sobre o desperdício da água. A API do FlagrApp permite ao desenvolvedor obter dados sobre seu core = fotos de flagras de gasto de água postadas no Twitter.",
+        "version": "1.0.0"
+    },
+    "host": "api.flagrapp-server.herokuapp.com",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "basePath": "/v1",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/ranking": {
+            "get": {
+                "summary": "Ranking",
+                "description": "O endpoint Ranking retorna publicações do Twitter com a Tag #Flagrapp de acordo com os parâmetros definidos = Data da publicação, Estado, Hashtags, Delimitador de ocorrências, Quantidade de Likes.\n",
+                "parameters": [
+                    {
+                        "name": "publish_date",
+                        "in": "query",
+                        "description": "Data de publicação.",
+                        "required": false,
+                        "type": "string",
+                        "format": "date"
+                    },
+                    {
+                        "name": "state",
+                        "in": "query",
+                        "description": "Estado de onde a foto foi tirada. Exemplo = SP",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "hashtags",
+                        "in": "query",
+                        "description": "Hashtags da publicação, categorização da foto.",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "delimiter",
+                        "in": "query",
+                        "description": "Delimitador de ocorrências",
+                        "required": false,
+                        "type": "number",
+                        "format": "number"
+                    },
+                    {
+                        "name": "H_quantity_likes",
+                        "in": "query",
+                        "description": "Quantidade de likes (Maior que >)",
+                        "required": false,
+                        "type": "number",
+                        "format": "number"
+                    },
+                    {
+                        "name": "L_quantity_likes",
+                        "in": "query",
+                        "description": "Quantidade de likes (Menor que <)",
+                        "required": false,
+                        "type": "number",
+                        "format": "number"
+                    }
+                ],
+                "tags": [
+                    "Ranking"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Um array de publicações",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Publicação"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Nenhuma Publicação encontrada.",
+                        "schema": {
+                            "$ref": "#/definitions/Erro"
+                        }
+                    },
+                    "400": {
+                        "description": "* Entrar ao menos 1 parâmetro de seleção",
+                        "schema": {
+                            "$ref": "#/definitions/Erro"
+                        }
+                    },
+                    "default": {
+                        "description": "Erro Inesperado",
+                        "schema": {
+                            "$ref": "#/definitions/Erro"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Publicação": {
+            "properties": {
+                "img": {
+                    "type": "string",
+                    "description": "Imagem."
+                },
+                "publish_date": {
+                    "type": "string",
+                    "description": "Data de publicação."
+                },
+                "state": {
+                    "type": "string",
+                    "description": "Estado de onde a foto foi tirada. Exemplo = SP."
+                },
+                "hashtags": {
+                    "type": "string",
+                    "description": "Hashtags da publicação, categorização da foto.."
+                },
+                "delimiter": {
+                    "type": "number",
+                    "description": "Delimitador de ocorrências."
+                },
+                "H_quantity_likes": {
+                    "type": "number",
+                    "description": "Quantidade de likes (Maior que >)."
+                },
+                "L_quantity_likes": {
+                    "type": "number",
+                    "description": "Quantidade de likes (Menor que <)."
+                }
+            }
+        },
+        "Erro": {
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "fields": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
