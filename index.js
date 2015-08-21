@@ -100,7 +100,7 @@ router.post('/publish', function(req, res) {
 });
 
 app.use('/doc', express.static('./doc'));
-app.use('/', express.static('./node_modules/swagger-ui/dist'));
+app.use('/', express.static('./views'));
 app.get('/', function (req, res) {
 	res.sendFile('index.html');
 });
