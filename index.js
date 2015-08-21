@@ -70,21 +70,23 @@ router.get('/tweets', function(req, res) {
 });
 
 router.post('/publish', function(req, res) {
-	var params = {status: req.query.status, media: []};
+	var params = {status: req.query.status};
+	var operation = "update";
 	if(!params.status) {
 		console.log('Parâmetro status faltando');
 		res.status(400).send("Obrigatório parâmetro status");
 		return;
 	}
 	
-	if(req.query.media) {
-		params.media.push(new Buffer(req.query.media, 'base64'))
+	if(req.body.media) {
+		operation = "update_with_media";
+		params.media = [new Buffer(req.body.media, 'base64')];
 	}
 	
 	console.log("Parâmetros:");
 	console.log(params);
 	
-	client.post('statuses/update_with_media', params, function(error, tweet, response){
+	client.post('statuses/' + operation, params, function(error, tweet, response){
 	  if (error) {
   		console.log('erro ao fazer upload do texto com foto');
 		res.status(500).json(error);
