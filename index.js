@@ -30,7 +30,7 @@ router.get('/timeline', function(req, res) {
 
 router.get('/recents', function(req, res) {
 	var only_with_media = req.query.only_with_media;
-	var params = req.query
+	var params = req.query;
 	client.get('statuses/user_timeline', params, function(error, tweets, response){
 	  if (error) {
 		res.json({type:'error', message:error});
@@ -59,7 +59,29 @@ router.get('/recents', function(req, res) {
 				recents.push(single);
 			}
 		}
-		res.json({type:'success', message:recents});
+		if (recents.length <= 0) {
+			var declaredError = {code:204, message:'Nenhuma publicação encontrada.'};
+			res.json({type:'error', message: declaredError});
+		} else {
+			res.json({type:'success', message:recents});
+		}
+	  }	  
+	});
+});
+
+router.get('/tweets', function(req, res) {
+	req.query.q = '#flagrapp';
+	var params = req.query;
+	client.get('search/tweets', params, function(error, tweets, response){
+	  if (error) {
+		res.json({type:'error', message:error});
+	  } else {
+		if (tweets == null || tweets.statuses.length <= 0) {
+			var declaredError = {code:204, message:'Nenhuma publicação encontrada.'};
+			res.json({type:'error', message: declaredError});
+		} else {
+			res.json({type:'success', message:tweets}); 
+		}
 	  }	  
 	});
 });
