@@ -29,22 +29,17 @@ router.get('/timeline', function(req, res) {
 });
 
 router.get('/recents', function(req, res) {
-	var only_with_media = req.query.only_with_media;
 	var params = req.query;
 	client.get('statuses/user_timeline', params, function(error, tweets, response){
 	  if (error) {
 		res.json({type:'error', message:error});
 	  } else {
 		var recents = new Array();
-		if (only_with_media == 'true') {
+		if (req.query.only_with_media == 'true') {
 			for (var i = 0; (i <= 10 && i <= tweets.length) && tweets[i].entities.media; i++) {
-				if (tweets[i].entities.media) {
-					var url = tweets[i].entities.media[0].url;
-					var text = (tweets[i].text).substring(0,(tweets[i].text).indexOf(url)-1);				
-					var single = {text: text, media: tweets[i].entities.media[0].media_url};
-				} else {
-					var single = {text: tweets[i].text, media: ''};
-				}
+				var url = tweets[i].entities.media[0].url;
+				var text = (tweets[i].text).substring(0,(tweets[i].text).indexOf(url)-1);				
+				var single = {text: text, media: tweets[i].entities.media[0].media_url};
 				recents.push(single);
 			}
 		} else {
