@@ -16,18 +16,6 @@ var client = new Twitter({
 
 var router = express.Router();
 
-router.get('/timeline', function(req, res) {
-	//screen_name=foraPT
-	var params = req.query
-	client.get('statuses/user_timeline', params, function(error, tweets, response){
-	  if (error) {
-		res.json({type:'error', message:error});
-	  } else {
-		res.json({type:'success', message:tweets}); 
-	  }	  
-	});
-});
-
 router.get('/recents', function(req, res) {
 	var params = req.query;
 	client.get('statuses/user_timeline', params, function(error, tweets, response){
@@ -81,24 +69,29 @@ router.get('/tweets', function(req, res) {
 	});
 });
 
-function base64_encode(file) {
-	var fs = require('fs');
-    var bitmap = fs.readFileSync(file);
-    return new Buffer(bitmap).toString('base64');
-}
-
 router.post('/publish', function(req, res) {
-	var base64Image = base64_encode(req.query.file);
-	var params = {status:req.query.status, media:[new Buffer(base64Image, 'base64')]}
-
+	var params = {status: req.query.status, media: []};
+	if(!params.status) {
+		console.log('Parâmetro status faltando');
+		res.status(400).send("Obrigatório parâmetro status");
+		return;
+	}
+	
+	if(req.query.media) {
+		params.media.push(new Buffer(req.query.media, 'base64'))
+	}
+	
+	console.log("Parâmetros:");
+	console.log(params);
+	
 	client.post('statuses/update_with_media', params, function(error, tweet, response){
 	  if (error) {
   		console.log('erro ao fazer upload do texto com foto');
-		res.json({type:'error', message:error});
+		res.status(500).json(error);
 
 	  } else {
 		console.log('upload do texto com foto realizado com sucesso');
-		res.json({type:'success', message:tweet}); 
+		res.json(tweet); 
 	  }	  
 	});
 });
@@ -107,6 +100,6 @@ app.use(express.static(__dirname + '/views'));
 app.get('/', function (req, res) {
 	res.sendFile('index.html');
 });
-app.use('/twitter', router);
+app.use('/api', router);
 app.listen(process.env.PORT || 5000);
 console.log("Servidor rodando!");
