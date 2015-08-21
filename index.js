@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var Twitter = require('twitter');
+var port = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -98,10 +99,11 @@ router.post('/publish', function(req, res) {
 	});
 });
 
-app.use(express.static(__dirname + '/views'));
+app.use('/doc', express.static('./doc'));
+app.use('/', express.static('./node_modules/swagger-ui/dist'));
 app.get('/', function (req, res) {
 	res.sendFile('index.html');
 });
 app.use('/api', router);
-app.listen(process.env.PORT || 5000);
-console.log("Servidor rodando!");
+app.listen(port);
+console.log("Servidor rodando na porta " + port);
