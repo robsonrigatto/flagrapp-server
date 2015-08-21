@@ -5,12 +5,12 @@
         "description": "O FlagrApp é um aplicativo cujo objetivo é alertar a população sobre o desperdício da água e maus tratos. A API do FlagrApp permite ao desenvolvedor obter dados sobre seu core = fotos de flagras de gasto de água e/ou fotos de flagras de maus tratos postadas no Twitter.",
         "version": "1.0.0"
     },
-    "host": "api.flagrapp-server.herokuapp.com",
+    "host": "flagrapp-server.herokuapp.com",
     "schemes": [
         "http",
         "https"
     ],
-    "basePath": "/v1",
+    "basePath": "/api",
     "produces": [
         "application/json"
     ],
