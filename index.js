@@ -71,7 +71,7 @@ router.get('/tweets', function(req, res) {
 });
 
 router.post('/publish', function(req, res) {
-	var params = {status: req.query.status};
+	var params = {status: req.body.status};
 	var operation = "update";
 	if(!params.status) {
 		console.log('Parâmetro status faltando');
