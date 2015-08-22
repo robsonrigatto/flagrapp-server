@@ -5,7 +5,7 @@ var Twitter = require('twitter');
 var port = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
-app.use(bodyParser.json(limit: '50mb'));
+app.use(bodyParser.json({limit: '50mb'}));
  
 //Vamos criar um twitter senão cada postagem vai no meu nome
 var client = new Twitter({
