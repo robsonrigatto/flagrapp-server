@@ -25,14 +25,14 @@ router.get('/recents', function(req, res) {
 	  } else {
 		var recents = new Array();
 		if (req.query.only_with_media == 'true') {
-			for (var i = 0; (i <= 10 && i <= tweets.length) && tweets[i].entities.media; i++) {
+			for (var i = 0; (i < 10 && i < tweets.length) && tweets[i].entities.media; i++) {
 				var url = tweets[i].entities.media[0].url;
 				var text = (tweets[i].text).substring(0,(tweets[i].text).indexOf(url)-1);				
 				var single = {text: text, media: tweets[i].entities.media[0].media_url};
 				recents.push(single);
 			}
 		} else {
-			for (var i = 0; i <= 10 && i <= tweets.length; i++) {
+			for (var i = 0; i < 10 && i < tweets.length; i++) {
 				if (tweets[i].entities.media) {
 					var url = tweets[i].entities.media[0].url;
 					var text = (tweets[i].text).substring(0,(tweets[i].text).indexOf(url)-1);				
